@@ -1,4 +1,4 @@
-def find_all_substr(source: str, substr: str) -> list[str]:
+def find_all_substrs(source: str, substr: str) -> list[str]:
     N: int = len(source)
     M: int = len(substr)
     ALPHABET: set[str] = set(substr)
@@ -43,7 +43,7 @@ def find_all_substr(source: str, substr: str) -> list[str]:
 def main() -> None:
     s = input("Enter string:\n")
     t = input("Enter substring:\n")
-    print(find_all_substr(s, t))
+    print(find_all_substrs(s, t))
 
 
 if __name__ == "__main__":
