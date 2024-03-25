@@ -9,7 +9,6 @@ def is_substring(source: str, substr: str, index: int) -> bool:
         if source[index + j] != substr[j]:
             break
     else:
-        print(f"Found substring at index {index}")
         return True
     return False
 
