@@ -1,4 +1,7 @@
-def find_all_substrs(source: str, substr: str)-> list[str]:
+__all__ = ["bruteforce"]
+
+
+def bruteforce(source: str, substr: str) -> list[str]:
     n = len(source)
     m = len(substr)
     result = []
@@ -14,4 +17,4 @@ def find_all_substrs(source: str, substr: str)-> list[str]:
 def main():
     s = input("Enter string:\n")
     t = input("Enter substring:\n")
-    print(find_all_substrs(s, t))
+    print(bruteforce(s, t))

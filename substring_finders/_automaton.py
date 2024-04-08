@@ -1,3 +1,6 @@
+__all__ = ["automaton"]
+
+
 def make_dfa(source: str, alphabet: set[str]) -> list[dict[str, int]]:
     table: list[dict[str, int]] = []
     substring: str = ""
@@ -17,25 +20,25 @@ def make_dfa(source: str, alphabet: set[str]) -> list[dict[str, int]]:
     return table
 
 
-def find_all_substrs(source: str, substr: str) -> list[int]:
+def automaton(source: str, substr: str) -> list[int]:
     alphabet = set(substr)
     dfa = make_dfa(substr, alphabet)
     state = 0
-    FINAL = len(dfa)
+    final = len(dfa)
     result = []
     for i, c in enumerate(source):
-        if (FINAL == state):
-            result.append(i - FINAL)
+        state = dfa[state][c] if c in alphabet else 0
+        if (final == state):
+            result.append(i - final)
             state = 0
             continue
-        state = dfa[state][c] if c in alphabet else 0
     return result
 
 
 def main() -> None:
     source = input("Enter the source string:\n")
     substr = input("Enter the substring:\n")
-    print(find_all_substrs(source, substr))
+    print(automaton(source, substr))
 
 
 if __name__ == "__main__":
