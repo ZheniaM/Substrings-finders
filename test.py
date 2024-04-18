@@ -1,6 +1,7 @@
 from typing import Callable
 import unittest
 import time
+import traceback
 from threading import Timer
 from substring_finders._automaton import automaton
 from substring_finders._a_c import apostolico_crocemor
@@ -44,6 +45,10 @@ class FindersTest(unittest.TestCase):
             t: str = f"'{target}'"
             print(f"{finder.__name__:<15}for target = {t:<25}" +
                   f"\ttook\t{end_time - start_time:6.4f}")
+        except TimeoutError:
+            ...
+        except Exception:
+            print(traceback.format_exc())
         finally:
             timer.cancel()
             return result
