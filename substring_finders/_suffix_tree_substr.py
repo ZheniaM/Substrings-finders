@@ -1,59 +1,56 @@
 __all__=['build_suffix_tree']
 
-def build_suffix_tree(text):
-    tree = {0: {}}
-    suffix_positions = {}
-    suffix_positions[0] = 0
-    active_node = 0
-    active_edge = 0
-    text_len = len(text)
-    for i in range(1, text_len + 1):
-        suffix_positions[i] = active_node
-        leaf_node = active_node
-        active_edge = active_edge if active_edge else i - 1
-        while active_node in tree and active_edge in tree[active_node]:
-            last_child = max(k for k in tree[active_node] if k < len(active_edge))
-            last_child_edge = tree[active_node][last_child]
-            if text[last_child_edge] == text[i - 1]:
-                leaf_node = last_child
-                break
-            active_node = last_child
-        if text[active_edge] != text[i - 1]:
-            tree[active_node][i] = i
-            active_node = i
-            tree[active_node] = {}
-            suffix_positions[i] = active_node
-        active_edge = i - 1
-    return tree, suffix_positions
+import math
 
-def suffix_tree_substr(text, pattern):
-    tree, suffix_positions = build_suffix_tree(text)
-    active_node = 0
-    active_edge = 0
-    pattern_len = len(pattern)
-    for i in range(len(text)):
-        if active_edge == pattern_len:
-            return suffix_positions[i - pattern_len + 1:i + 1]
-        if text[active_edge] == pattern[active_edge]:
-            active_edge += 1
-            active_node = suffix_positions[i]
+def build_suffix_array(s):
+    n = len(s)
+    suffixes = [(i, s[i:]) for i in range(n)]
+    suffixes.sort(key=lambda x: x[1])
+    position = [0] * n
+    for i in range(n):
+        position[suffixes[i][0]] = i
+    lcp = [0] * n
+    h = 0
+    for i in range(1, n):
+        k = suffixes[i][0]
+        while h > 0 and suffixes[i][1][:h] != suffixes[position[k]][1][:h]:
+            h = lcp[h - 1]
+        h += 1
+        lcp[i] = h
+    return suffixes, position, lcp
+
+def search_substring(s, substring):
+    suffixes, position, lcp = build_suffix_array(s)
+    n = len(s)
+    m = len(substring)
+    lo = 0
+    hi = n - m
+    occurrences = []
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if substring < suffixes[mid][1][:m]:
+            hi = mid
+        elif suffixes[mid][1][:m] < substring:
+            lo = mid + 1
         else:
-            active_edge = 0
-            while active_node in tree and text[i] != tree[active_node][active_edge]:
-                active_node = tree[active_node][active_edge]
-                active_edge = 0
-            if active_node in tree and text[i] == tree[active_node][active_edge]:
-                active_edge += 1
-            else:
-                active_node = 0
-    if active_edge == pattern_len:
-        return suffix_positions[i - pattern_len + 1:i + 1]
-    return []
+            i = position[mid]
+            j = 0
+            while i < n and j < m and suffixes[i][1][j] == substring[j]:
+                occurrences.append(i)
+                i += 1
+                j += 1
+            lo = mid + 1
+    if lo < n and s[lo:lo + m] == substring:
+        occurrences.append(lo)
+    return occurrences
+
 
 def main():
-    s = input("Enter string:\n")
-    t = input("Enter substring:\n")
-    print(suffix_tree_substr(s, t))
-
+    s = input("Enter the string: ")
+    substring = input("Enter the substring: ")
+    occurrences = search_substring(s, substring)
+    print(occurrences)
+    
+    
 if __name__ == "__main__":
     main()
