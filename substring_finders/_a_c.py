@@ -1,5 +1,5 @@
 # Apostolico-Crocemor
-__all__ = ["ac"]
+__all__ = ["ac", "apostolico_crocemor"]
 
 
 def preKmp(substr: str, kmpNext: list[int]) -> None:
@@ -56,6 +56,9 @@ def ac(source: str, substr: str) -> list[int]:
             res.append(k)
 
     return res
+
+
+apostolico_crocemor = ac
 
 
 def main() -> None:

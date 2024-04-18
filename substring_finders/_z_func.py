@@ -18,7 +18,7 @@ def make_z_funcs(s: str) -> list[int]:
 def z_func(source: str, substr: str) -> list[int]:
     N: int = len(source)
     M: int = len(substr)
-    z = make_z_funcs(f"{source}\0{substr}")
+    z = make_z_funcs(f"{substr}\0{source}")
     res: list[int] = []
     for i in range(M + 1, N + 2):
         if z[i] == M:
