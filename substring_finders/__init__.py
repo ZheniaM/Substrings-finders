@@ -17,4 +17,4 @@ __all__ = _automaton.__all__ + \
 	_a_c.__all__ + \
     _boyer_moore_horspool.__all__ + \
     _knuth_morris_pratt.__all__ + \
-    _suffix_tree_substr
+    _suffix_tree_substr.__all__

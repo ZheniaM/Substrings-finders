@@ -1,15 +1,17 @@
+from typing import Dict, List
+
 __all__=['boyer_moore_horspool']
 
-def boyer_moore_horspool(source, substr):
-    m = len(substr)
-    n = len(source)
-    bad_char_table = {char: m for char in set(substr)}
+def boyer_moore_horspool(source: str, substr: str) -> List[int]:
+    m: int = len(substr)
+    n: int = len(source)
+    bad_char_table: Dict[str, int] = {char: m for char in set(substr)}
     for i in range(m - 1):
         bad_char_table[substr[i]] = m - i - 1
-    shift = m
-    indices = []
+    shift: int = m
+    indices: List[int] = []
     while shift <= n:
-        i = m - 1
+        i: int = m - 1
         while i >= 0 and substr[i] == source[shift - 1]:
             i -= 1
             shift -= 1
@@ -24,8 +26,8 @@ def boyer_moore_horspool(source, substr):
     return indices
 
 def main():
-    s = input("Enter string:\n")
-    t = input("Enter substring:\n")
+    s: str = input("Enter string:\n")
+    t: str = input("Enter substring:\n")
     print(boyer_moore_horspool(s, t))
 
 
