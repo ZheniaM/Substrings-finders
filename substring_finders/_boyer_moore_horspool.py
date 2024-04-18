@@ -2,28 +2,31 @@ from typing import Dict, List
 
 __all__=['boyer_moore_horspool']
 
-def boyer_moore_horspool(source: str, substr: str) -> List[int]:
-    m: int = len(substr)
-    n: int = len(source)
-    bad_char_table: Dict[str, int] = {char: m for char in set(substr)}
-    for i in range(m - 1):
-        bad_char_table[substr[i]] = m - i - 1
-    shift: int = m
-    indices: List[int] = []
-    while shift <= n:
-        i: int = m - 1
-        while i >= 0 and substr[i] == source[shift - 1]:
-            i -= 1
-            shift -= 1
-        if i == -1:
-            indices.append(shift)
-            shift += m
-        if shift < n:
-            if source[shift] not in bad_char_table:
-                shift += m
-            else:
-                shift += max(bad_char_table[source[shift]], m - i - 1)
-    return indices
+def boyer_moore_horspool(source: str, substring: str) -> List[int]:
+    results = []
+    n = len(source)
+    m = len(substring)
+    bad_character = {}
+    if m == 0:
+        return results
+
+    for i in range(len(substring) - 1):
+        bad_character[substring[i]] = len(substring) - 1 - i
+    
+    i = m - 1
+    while i < n:
+        k = 0
+        while k < m and substring[m - 1 - k] == source[i - k]:
+            k += 1
+        if k == m:
+            results.append(i - m + 1)
+            bad_character_shift = bad_character.get(source[i], m)
+            i += bad_character_shift
+        else:
+            bad_character_shift = bad_character.get(source[i], m)
+            i += bad_character_shift
+            
+    return results
 
 def main():
     s: str = input("Enter string:\n")

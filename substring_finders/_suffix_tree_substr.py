@@ -1,4 +1,4 @@
-from typing import List, Dict, Union
+from typing import List, Dict, Union, Any
 
 __all__ = ["suffix_tree_substr"]
 
@@ -13,7 +13,7 @@ def build_suffix_tree(s: str) -> Dict[str, Union[int, Dict]]:
         current_node['$'] = i
     return suffix_tree
 
-def suffix_tree_substr(suffix_tree: Dict, substring: str) -> List[int]:
+def suffix_tree_substr(suffix_tree: Dict[str, Any], substring: str) -> List[int]:
     results = []
     current_node = suffix_tree
     for char in substring:
