@@ -30,7 +30,7 @@ class FindersTest(unittest.TestCase):
                           source: str, target: str,
                           timeout: int = 3) -> list[int]:
         def timeout_handler():
-            raise TimeoutError("timeout exited for " +
+            raise TimeoutError("timeout exceeded for " +
                                f"{finder.__name__} for {timeout} sec")
 
         timer: Timer = Timer(timeout, timeout_handler)

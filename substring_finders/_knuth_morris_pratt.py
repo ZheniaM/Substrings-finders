@@ -1,6 +1,7 @@
 from typing import List
 
-__all__=['knuth_morris_pratt']
+__all__ = ['knuth_morris_pratt']
+
 
 def kmp(source: str, substr: str) -> List[int]:
     lps: List[int] = [0] * len(substr)
@@ -24,6 +25,10 @@ def kmp(source: str, substr: str) -> List[int]:
             j = lps[j-1]
 
     return matches
+
+
+knuth_morris_pratt = kmp
+
 
 def main():
     s: str = input("Enter string:\n")
